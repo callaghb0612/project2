@@ -1,0 +1,23 @@
+#homepage{
+  background-color: #99ccff;
+  padding: .5em;
+}
+
+#header{
+  background-color: #4488ff;
+  border: .1em solid black; /* use something that depends on a constant instead of em here*/
+  border-radius: .8em;
+  padding: .5em;
+  margin: 0 .5em;
+  color: white;
+  font-size: 25pt;
+  font-family: sans-serif;
+}
+
+#menu{
+  background-color: #eeffff;
+  padding: 5em;
+  margin: .5em .5em;
+  border: .1em solid black;
+  border-radius: .8em;
+}
