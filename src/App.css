@@ -1,23 +1,41 @@
-#homepage{
+#root{
   background-color: #99ccff;
-  padding: .5em;
+  padding: .5rem;
 }
 
 #header{
   background-color: #4488ff;
-  border: .1em solid black; /* use something that depends on a constant instead of em here*/
-  border-radius: .8em;
-  padding: .5em;
-  margin: 0 .5em;
+  border: .1rem solid black; 
+  border-radius: 1rem;
+  padding: .5rem;
+  margin: 0 .5rem;
   color: white;
   font-size: 25pt;
   font-family: sans-serif;
+  line-break: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
-#menu{
+#add-button{
+  border: .1rem solid white;
+  padding: .2rem .5rem;
+  border-radius: .5rem;
+  margin-right: .5rem;
+}
+
+#add-button:hover{
+  background-color: #ffff00;
+  color: red;
+  border: .1rem solid #ff8800;
+}
+
+#content{
   background-color: #eeffff;
-  padding: 5em;
-  margin: .5em .5em;
-  border: .1em solid black;
-  border-radius: .8em;
+  padding: 5rem;
+  margin: .5rem .5rem;
+  border: .1rem solid black;
+  border-radius: 1rem;
 }
