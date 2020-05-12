@@ -39,3 +39,31 @@
   border: .1rem solid black;
   border-radius: 1rem;
 }
+
+#title-quiz{
+  background-color: #99ccff;
+  border: .1rem solid black; 
+  border-radius: 1rem;
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 20pt;
+  color: black;
+}
+
+#add-question-button{
+  background-color: #4488ff;
+  border: .1rem solid black; 
+  padding: .4rem 1rem;
+  border-radius: .5rem;
+  text-align: center;
+  margin-top: 1rem;
+  width: 1rem;
+  margin-left: 60rem;
+}
+
+#add-question-button:hover{
+  background-color: #224488;
+  color: white;
+  border: .1rem solid #aaaaaa;
+}
