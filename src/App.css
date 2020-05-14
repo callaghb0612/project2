@@ -1,0 +1,21 @@
+#site{
+  background-color: #88aaff;
+  padding: 1rem 2rem 2rem 2rem;
+}
+
+#header{
+  font-size: 40pt;
+  background-color: #4444ff;
+  color: white;
+  border: solid black .2rem;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+#quiz-list{
+  background: #99bbff;
+  margin-top: 1rem;
+  border: solid black .2rem;
+  border-radius: 1rem;
+  padding: 1rem;
+}
