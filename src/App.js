@@ -1,19 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Quiz} from './quiz';
+import {useSelector, useDispatch} from 'react-redux';
+import {loadQuizesList} from './actions';
 
 function App() {
-  const initialQuizes = [
-    {title: "Temp Quiz", author: "Bryant W. Callaghan"},
-    {title: "Temp Quiz 2", author: "Bryant W. Callaghan 2"},
-  ];
+  const quizes = useSelector(state => state.quizes);
+  const dispatch = useDispatch();
+
+  useEffect(() =>{
+    dispatch(loadQuizesList());
+  }, [dispatch]);
 
   return (
     <div id="site">
       <div id="header">Know-A-Bunch</div>
       <div id="quiz-list">
-        {initialQuizes.map(quiz => <Quiz quiz={quiz} />)}
+        {quizes.map(quiz => <Quiz key={quiz.id} quiz={quiz} />)}
       </div>
+      <div id="quiz-root:"></div>
     </div>
     );
 }
