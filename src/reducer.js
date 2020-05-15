@@ -28,8 +28,6 @@ function reducer(state = initialState, action){
             }
             
             //return the quiz being taken
-            console.log(action.payload[1]);
-
             return{
                 ...state,
                 quizQuestions: action.payload[1],
