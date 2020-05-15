@@ -9,20 +9,22 @@ function App() {
   const quizes = useSelector(state => state.quizes);
   //this goes into each quiz, but when we select a quiz it is loaded with the questions so it wont really matter if it is the same for every quiz in the list
   const quizQuestions = useSelector(state => state.quizQuestions);
+  const isTakingQuiz = useSelector(state => state.isTakingQuiz)
+  const questionIndex = useSelector(state => state.quizQuestion);
+  const isShowingAnswer = useSelector(state => state.isShowingAnswer);
   const dispatch = useDispatch();
 
   useEffect(() =>{
     dispatch(loadQuizesList());
   }, [dispatch]);
 
-  if(useSelector(state => state.isTakingQuiz)){
+  if(isTakingQuiz){
     //display the quiz
-
     return (
       <div id="site">
         <div id="header">Know-A-Bunch</div>
-        <div id="questions">
-          {quizQuestions.map(question => <Question key={question.q_num} question={question}/>)}
+        <div id="app-root">
+           <Question key={quizQuestions[questionIndex].q_num} question={quizQuestions[questionIndex]} isShowingAnswer={isShowingAnswer}/>)}
         </div>
       </div>
       );
@@ -30,7 +32,7 @@ function App() {
     return (
       <div id="site">
         <div id="header">Know-A-Bunch</div>
-        <div id="quiz-list">
+        <div id="app-root">
           {quizes.map(quiz => <Quiz key={quiz.id} quiz={quiz} id={quiz.id}/>)}
         </div>
       </div>

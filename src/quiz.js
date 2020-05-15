@@ -1,6 +1,6 @@
 import React from 'react';
 import './quiz.css';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {loadQuizQuestions} from './actions';
 
 
@@ -16,11 +16,11 @@ export function Quiz(props){
 
     return(
         <div className="quiz-list-item">
-            <div id="quiz-left">
-                <div id="quiz-title">{quiz.title}</div>
-                <div id="quiz-author">by {quiz.author}</div>
+            <div className="quiz-left">
+                <div className="quiz-title">{quiz.title}</div>
+                <div className="quiz-author">by {quiz.author}</div>
             </div>
-            <button id="quiz-right" onClick={takeQuiz} >Take Quiz</button>
+            <button className="quiz-right" onClick={takeQuiz} >Take Quiz</button>
         </div>
     );
 }

@@ -3,6 +3,8 @@ const address = 'https://know-a-bunch.duckdns.org:3442';
 export const Action = Object.freeze({
     LoadQuizList: 'LoadQuizesList',
     LoadQuizQuestions: 'LoadQuizQuestions',
+    GotoNextQuestion: 'GotoNextQuestion',
+    CheckAnswer: 'CheckAnswer',
 });
 
 function checkForErrors(response){
@@ -48,5 +50,26 @@ export function loadQuizQuestions(id){
             }
         })
         .catch(e => console.error(e));
+    }
+}
+
+export function gotoNextQuestion(){
+    return{
+        type: Action.GotoNextQuestion,
+    }
+}
+
+export function checkAnswer(question, answer){
+    //short answer
+    if(answer === question.answer){           
+        return{
+            type: Action.CheckAnswer,
+            payload: [question.question_type, true, answer]
+        }
+    } else {
+        return {
+            type: Action.CheckAnswer,
+            payload: [question.quesiton_type, false, answer]
+        }
     }
 }

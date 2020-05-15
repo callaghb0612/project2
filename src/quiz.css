@@ -10,17 +10,17 @@
     margin: 1rem;
 }
 
-#quiz-title{
+.quiz-title{
     font-size: 30pt;
     color: #ffffff;
 }
 
-#quiz-author{
+.quiz-author{
     font-size: 20pt;
     color: #f0f0f0;
 }
 
-#quiz-right{
+.quiz-right{
     margin-right: 0;
     font-size: 25pt;
     border: .1rem solid white;
@@ -30,7 +30,7 @@
     background-color: #6677ff;
 }
 
-#quiz-right:hover{
+.quiz-right:hover{
      background-color: #5555ff;
      cursor: pointer;
      color: #ffff00;
