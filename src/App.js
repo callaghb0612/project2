@@ -24,7 +24,7 @@ function App() {
       <div id="site">
         <div id="header">Know-A-Bunch</div>
         <div id="app-root">
-           <Question key={quizQuestions[questionIndex].q_num} question={quizQuestions[questionIndex]} isShowingAnswer={isShowingAnswer}/>)}
+           <Question key={quizQuestions[questionIndex].q_num} question={quizQuestions[questionIndex]} isShowingAnswer={isShowingAnswer}/>
         </div>
       </div>
       );

@@ -4,11 +4,13 @@ const initialState = {
     isTakingQuiz: false,
     quizBeingTaken: null,
     quizQuestion: -1,  //the question of the quiz we are on (in the index)
+    numQuestions: -1, //the number of questions in the quiz
 
     //for showing the correct answer
     isShowingQuestionAnswer: false,
     answer: -1, 
     wasCorrect: false,
+    numCorrect: 0,
 
     quizes: [],
     quizQuestions: [],
@@ -42,6 +44,7 @@ function reducer(state = initialState, action){
                 quizBeingTaken: action.q_id,
                 quizes: [quiz],
                 quizQuestion: 0,
+                numQuestions: action.payload[1].length,
             }
             break;
         case Action.GotoNextQuestion:
@@ -55,6 +58,7 @@ function reducer(state = initialState, action){
                 //they were correct
                 return{
                     ...state,
+                    numCorrect: state.numCorrect+1,
                     wasCorrect: true,
                     answer: action.payload[2],
                 }
