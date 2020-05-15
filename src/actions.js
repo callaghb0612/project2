@@ -1,4 +1,4 @@
-const address = 'http://localhost:3442';
+const address = 'https://know-a-bunch.duckdns.org:3442';
 
 export const Action = Object.freeze({
     LoadQuizList: 'LoadQuizesList',
@@ -12,27 +12,41 @@ function checkForErrors(response){
     return response;
 }
 
-export function loadQuizesList(quizes){
+export function loadQuizes(quizes){
+    //return the list of quizes
+    return {
+        type: Action.LoadQuizList,
+        payload: quizes,
+    };
+}
+
+export function loadQuizesList(){
     return dispatch => {
         fetch(`${address}/quiz/all`)
             .then(checkForErrors)
             .then(response => response.json())
             .then(data => {
                 if(data.ok){
-                    //return the list of quizes
-                    return {
-                        type: Action.LoadQuizList,
-                        payload: quizes,
-                    };
+                    dispatch(loadQuizes(data.quizList));
                 }
             })
             .catch(e => console.error(e));
     }
 }
 
-export function loadQuizQuestions(questions){
-    return{
-        type: Action.LoadQuizQuestions,
-        payload: questions,
-    };
+export function loadQuizQuestions(id){
+    return dispatch => {
+    fetch(`${address}/quiz/${id}`)
+        .then(checkForErrors)
+        .then(response => response.json())
+        .then(data =>{
+            if(data.ok){
+                dispatch({
+                    type: Action.LoadQuizQuestions,
+                    payload: [id, data.questionList]
+                });
+            }
+        })
+        .catch(e => console.error(e));
+    }
 }
