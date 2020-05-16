@@ -66,3 +66,21 @@
     background-color: #ffff44;
     color: black;
 }
+
+#incorrect{
+    color: #ff8800;
+}
+
+#correct{
+    color: #88ddff;
+}
+
+#answer-box-correct{
+    font-size: 20pt;
+    color: white;
+}
+
+#answer-box-incorrect{
+    font-size: 20pt;
+    color: white;
+}

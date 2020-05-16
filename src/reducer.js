@@ -61,12 +61,14 @@ function reducer(state = initialState, action){
                     numCorrect: state.numCorrect+1,
                     wasCorrect: true,
                     answer: action.payload[2],
+                    isShowingQuestionAnswer: true,
                 }
             } else {
                 return{
                     ...state,
                     wasCorrect: false,
                     answer: action.payload[2],
+                    isShowingQuestionAnswer: true
                 }
             }
         default:

@@ -61,7 +61,7 @@ export function gotoNextQuestion(){
 
 export function checkAnswer(question, answer){
     //short answer
-    if(answer === question.answer){           
+    if(answer === question.answer){        
         return{
             type: Action.CheckAnswer,
             payload: [question.question_type, true, answer]

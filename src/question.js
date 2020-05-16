@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './question.css';
 import {useDispatch, useSelector} from 'react-redux';
 import { checkAnswer } from './actions';
+import { Quiz } from './quiz';
 
 
 export function Question(props){
@@ -13,8 +14,8 @@ export function Question(props){
 
     const [answerText, setAnswerText] = useState([]);
 
-    const submitAnswer = (answer) => {
-        dispatch(checkAnswer(question, answer));
+    const submitAnswer = () => {
+        dispatch(checkAnswer(question, answerText));
     }
 
     const nextQuestion = () => {
@@ -28,20 +29,18 @@ export function Question(props){
     if(question.question_type === 0){
         if(isShowingAnswer){
             if (wasCorrect){
-                console.log('they were correct');
                 return (
                     <div className="question">
                         <div className="question-text"><span className="q-num">{question.q_num}. </span>{question.question}</div>
-                        <div className="answer-box-correct"></div>
+                        <div id="answer-box-correct"><span id="correct">Correct!</span> Answer: {question.answer}</div>
                         <button className="next-button" onClick={nextQuestion}>Next Question</button>
                     </div>
                 );
             } else {
-                console.log('they were not correct');
                 return(
                     <div className="question">
                         <div className="question-text"><span className="q-num">{question.q_num}. </span>{question.question}</div>
-                        <div className="answer-box-incorrect"></div>
+                        <div id="answer-box-incorrect"><span id="incorrect">Incorrect!</span> Correct answer: {question.answer}</div>
                         <button className="next-button" onClick={nextQuestion}>Next Question</button>
                     </div>
                 );
@@ -52,7 +51,7 @@ export function Question(props){
                 <div className="question">
                     <div className="question-text"><span className="q-num">{question.q_num}. </span>{question.question}</div>
                     <input className="answer-box" onChange={(event) => {setAnswerText(event.target.value)}}></input>
-                    <button className="submit-button" onClick={submitAnswer()}>Submit</button>
+                    <button className="submit-button" onClick={submitAnswer}>Submit</button>
                 </div>
             );
         }

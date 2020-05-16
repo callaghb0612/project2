@@ -11,7 +11,7 @@ function App() {
   const quizQuestions = useSelector(state => state.quizQuestions);
   const isTakingQuiz = useSelector(state => state.isTakingQuiz)
   const questionIndex = useSelector(state => state.quizQuestion);
-  const isShowingAnswer = useSelector(state => state.isShowingAnswer);
+  const isShowingAnswer = useSelector(state => state.isShowingQuestionAnswer);
   const dispatch = useDispatch();
 
   useEffect(() =>{
