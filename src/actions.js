@@ -3,6 +3,8 @@ const address = 'https://know-a-bunch.duckdns.org:3442';
 export const Action = Object.freeze({
     LoadQuizList: 'LoadQuizesList',
     LoadQuizQuestions: 'LoadQuizQuestions',
+    LoadEditList: 'LoadEditList',
+    LoadQuizEditor: 'LoadQuizEditor',
     GotoNextQuestion: 'GotoNextQuestion',
     CheckAnswer: 'CheckAnswer',
     EndQuiz: 'EndQuiz',
@@ -79,4 +81,38 @@ export function endQuiz(){
     return{
         type: Action.EndQuiz
     }
+}
+
+export function loadEditList(){
+    return dispatch => {
+        fetch(`${address}/quiz/all`)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch({
+                        type: Action.LoadEditList,
+                        payload: data.quizList,
+                    });
+                }
+            })
+            .catch(e => console.error(e));
+    }
+}
+
+export function loadQuizEditor(id){
+    return dispatch => {
+            fetch(`${address}/quiz/${id}`)
+                .then(checkForErrors)
+                .then(response => response.json())
+                .then(data =>{
+                    if(data.ok){
+                        dispatch({
+                            type: Action.LoadQuizEditor,
+                            payload: [id, data.questionList]
+                        });
+                    }
+                })
+                .catch(e => console.error(e));
+            }
 }

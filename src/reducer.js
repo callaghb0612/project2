@@ -2,7 +2,7 @@ import {Action} from './actions';
 
 const initialState = {
     isTakingQuiz: false,
-    quizBeingTaken: null, //which quiz is being taken
+    quizBeingTaken: null, //the id of the quiz which is being taken
     quizQuestion: -1,  //the question of the quiz we are on (in the index)
     numQuestions: -1, //the number of questions in the quiz
 
@@ -13,9 +13,12 @@ const initialState = {
     numCorrect: 0,
     showingResults: false,
 
-    quizes: [],
+    quizes: [],     //contains only one quiz if we are taking a quiz or editing a quiz
     quizQuestions: [],
     isWaiting: false,
+    isEditingQuizList: false,   //true if we are in edit mode
+    isEditingQuiz: false,
+    quizBeingEdited: -1,
 }
 
 function reducer(state = initialState, action){
@@ -46,7 +49,7 @@ function reducer(state = initialState, action){
                 ...state,
                 quizQuestions: action.payload[1],
                 isTakingQuiz: true,
-                quizBeingTaken: action.q_id,
+                quizBeingTaken: action.payload[0],
                 quizes: [quiz],
                 quizQuestion: 0,
                 numQuestions: action.payload[1].length,
@@ -76,17 +79,41 @@ function reducer(state = initialState, action){
                     isShowingQuestionAnswer: true
                 }
             }
+            break;
         case Action.EndQuiz:
             return{
                 ...state,
                 showingResults: true,
                 isShowingQuestionAnswer: false,
             }
+            break;
+        case Action.LoadEditList:
+            return{
+                ...state,
+                isEditingQuizList: true,
+                quizes: action.payload,
+            }
+            break;
+        case Action.LoadQuizEditor:
+            let quiz_e;
+            for(let i=0; i<state.quizes.length; i++){
+                if(state.quizes[i].id === action.payload[0]){
+                    quiz_e = state.quizes[i];
+                }
+            }
+
+            return {
+                ...state,
+                isEditingQuiz: true,
+                quizes: [quiz_e],
+                quizQuestions: action.payload[1],
+                quizBeingEdited: action.payload[0],
+            }
+            break;
         default:
             return state;
             break;
     }
-    return state;
 }
 
 export default reducer;

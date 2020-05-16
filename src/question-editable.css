@@ -1,0 +1,47 @@
+.question-edit{
+    border: .2rem white solid;
+    background-color: yellow;
+    padding: 1rem;
+    color: black;
+    font-size: 20pt;
+    border-radius: .8rem;
+    margin: 1rem;
+}
+
+.question-word{
+    color: black;
+    text-align: left;
+}
+
+.answer-word{
+    color: black;
+    text-align: left;
+}
+
+.q-num-edit{
+    color: black;
+}
+
+.question-text-edit{
+    margin-top: .5rem;
+    height: 2em;
+    width: stretch;
+    background-color: black;
+    border: .1rem solid white;
+    border-radius: .5rem;
+    padding: .5rem;
+    font-size: 18pt;
+    color: yellow;
+}
+
+.answer-box-edit{
+    margin-top: .5rem;
+    height: 2em;
+    width: stretch;
+    background-color: black;
+    border: .1rem solid white;
+    border-radius: .5rem;
+    padding: .5rem;
+    font-size: 18pt;
+    color: yellow;
+}
