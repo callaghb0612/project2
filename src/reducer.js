@@ -2,15 +2,16 @@ import {Action} from './actions';
 
 const initialState = {
     isTakingQuiz: false,
-    quizBeingTaken: null,
+    quizBeingTaken: null, //which quiz is being taken
     quizQuestion: -1,  //the question of the quiz we are on (in the index)
     numQuestions: -1, //the number of questions in the quiz
 
     //for showing the correct answer
     isShowingQuestionAnswer: false,
-    answer: -1, 
+    answer: -1,                         //the answer that was enetered
     wasCorrect: false,
     numCorrect: 0,
+    showingResults: false,
 
     quizes: [],
     quizQuestions: [],
@@ -22,7 +23,11 @@ function reducer(state = initialState, action){
         case Action.LoadQuizList:
             return {
                 ...state, //takes in all the preivous properties of state except the stuff defined below
-                quizes: action.payload
+                quizes: action.payload,
+                isTakingQuiz: false,
+                showingResults: false,
+                quizBeingTaken: null,
+                quizQuestions: [],
             }
             break;
         case Action.LoadQuizQuestions:
@@ -50,8 +55,8 @@ function reducer(state = initialState, action){
         case Action.GotoNextQuestion:
             return{
                 ...state,
-                quizQuestion: state.quizQuestion+1,
-                isShowingQuizAnswer: false,
+                quizQuestion: state.quizQuestion +1,
+                isShowingQuestionAnswer: false,
             }
         case Action.CheckAnswer:
             if(action.payload[1]){
@@ -70,6 +75,12 @@ function reducer(state = initialState, action){
                     answer: action.payload[2],
                     isShowingQuestionAnswer: true
                 }
+            }
+        case Action.EndQuiz:
+            return{
+                ...state,
+                showingResults: true,
+                isShowingQuestionAnswer: false,
             }
         default:
             return state;

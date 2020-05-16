@@ -12,22 +12,46 @@ function App() {
   const isTakingQuiz = useSelector(state => state.isTakingQuiz)
   const questionIndex = useSelector(state => state.quizQuestion);
   const isShowingAnswer = useSelector(state => state.isShowingQuestionAnswer);
+  const isShowingResults = useSelector(state => state.showingResults);
+  const numCorrect = useSelector(state => state.numCorrect);
+  const numQuestions = useSelector(state => state.numQuestions);
+  const quiz = useSelector(state => state.quizes[0]); //this is only called at the end of a quiz being taken, when the quiz is the only element in that array
   const dispatch = useDispatch();
 
   useEffect(() =>{
     dispatch(loadQuizesList());
   }, [dispatch]);
 
+  function backToMenu(){
+    dispatch(loadQuizesList());
+  }
+
   if(isTakingQuiz){
-    //display the quiz
-    return (
-      <div id="site">
-        <div id="header">Know-A-Bunch</div>
-        <div id="app-root">
-           <Question key={quizQuestions[questionIndex].q_num} question={quizQuestions[questionIndex]} isShowingAnswer={isShowingAnswer}/>
+    if(isShowingResults){
+      //show results
+      return(
+        <div id="site">
+          <div id="header">Know-A-Bunch</div>
+          <div id="app-root">
+            <div id="results-box">
+              <div id="quiz-title">{quiz.title}</div>
+              <div id="score-sentence">You scored <span id="score">{numCorrect}/{numQuestions}</span></div>
+              <button id="return-button" onClick={backToMenu}>Return To Menu</button>
+            </div>
+          </div>
         </div>
-      </div>
-      );
+      )
+    } else {
+    //display the quiz
+      return (
+        <div id="site">
+          <div id="header">Know-A-Bunch</div>
+          <div id="app-root">
+            <Question key={quizQuestions[questionIndex].q_num} question={quizQuestions[questionIndex]} isShowingAnswer={isShowingAnswer}/>
+          </div>
+        </div>
+        );
+    }
   } else {
     return (
       <div id="site">

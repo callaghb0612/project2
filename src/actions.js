@@ -5,6 +5,7 @@ export const Action = Object.freeze({
     LoadQuizQuestions: 'LoadQuizQuestions',
     GotoNextQuestion: 'GotoNextQuestion',
     CheckAnswer: 'CheckAnswer',
+    EndQuiz: 'EndQuiz',
 });
 
 function checkForErrors(response){
@@ -71,5 +72,11 @@ export function checkAnswer(question, answer){
             type: Action.CheckAnswer,
             payload: [question.quesiton_type, false, answer]
         }
+    }
+}
+
+export function endQuiz(){
+    return{
+        type: Action.EndQuiz
     }
 }

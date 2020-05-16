@@ -21,3 +21,45 @@
   border-radius: 1rem;
   padding: 1rem;
 }
+
+#results-box{
+  border: solid black .2rem;
+  background-color: #6677ff;
+  padding: 1rem;
+  border-radius: .8rem;
+  margin: 1rem;
+  color: white;
+  text-align: center;
+}
+
+#quiz-title{
+  font-size: 30pt;
+  text-align: center;
+}
+
+#score-sentence{
+  text-align: center;
+  font-size: 20pt;
+}
+
+#score{
+  font-size: 28pt;
+  color: #ffaaff;
+  font-family: serif;
+}
+
+#return-button{
+  font-size: 20pt;
+  border: .1rem solid white;
+  padding: .5rem;
+  border-radius: .5rem;
+  color: white;
+  background-color: #6677ff;
+  margin-top: .5rem;
+}
+
+#return-button:hover{
+  background-color: yellow;
+  color: black;
+  cursor: pointer;
+}
