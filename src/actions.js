@@ -144,9 +144,6 @@ export function createNewShort(id, num){
 }
 
 export function createNewMC(id, num){
-    console.log('create mc');
-    console.log(id);    
-    console.log(num);
     const newQ = {q_num: `${num}`, question: 'Q', a: 'A', b: 'B', c: 'C', d: 'D', answer: `0`}
     const options = {
         method: 'POST',
@@ -158,7 +155,6 @@ export function createNewMC(id, num){
     console.log(options);
 
     return dispatch => {
-        console.log(`${address}/quiz/add/${id}/mc`);
         fetch(`${address}/quiz/add/${id}/mc`, options)
             .then(checkForErrors)
             .then(response => response.json())

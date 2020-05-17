@@ -38,11 +38,11 @@ function App() {
   //these add new multiple choice questions and short answer questions, etc.
   const addMC = () => {
     console.log('add mc');
-    createNewMC(quizBeingEdited, numQuestions + 1);
+    dispatch(createNewMC(quizBeingEdited, numQuestions + 1));
   }
 
   const addShort = () =>{
-    createNewShort(quizBeingEdited, numQuestions + 1);
+    dispatch(createNewShort(quizBeingEdited, numQuestions + 1));
   }
 
   if(isTakingQuiz){
