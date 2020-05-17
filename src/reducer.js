@@ -31,6 +31,7 @@ function reducer(state = initialState, action){
                 showingResults: false,
                 quizBeingTaken: null,
                 quizQuestions: [],
+                isWaiting: false,
             }
         case Action.LoadQuizQuestions:
             //determine which quiz is being taken
@@ -53,6 +54,7 @@ function reducer(state = initialState, action){
                 quizQuestion: 0,
                 numQuestions: action.payload[1].length,
                 numCorrect: 0,
+                isWaiting: false,
             }
         case Action.GotoNextQuestion:
             return{
@@ -90,6 +92,7 @@ function reducer(state = initialState, action){
                 isEditingQuizList: true,
                 quizes: action.payload,
                 isEditingQuiz: false,
+                isWaiting: false
             }
         case Action.LoadQuizEditor:
             let quiz_e;
@@ -105,29 +108,41 @@ function reducer(state = initialState, action){
                 quizes: [quiz_e],
                 quizQuestions: action.payload[1],
                 quizBeingEdited: action.payload[0],
-                numQuestions: action.payload[1].length
+                numQuestions: action.payload[1].length,
+                isWaiting: false
             }
         case Action.CreateNewShort:
             return{
-                ...state
+                ...state,
+                isWaiting: false,
             }
         case Action.CreateNewMC:
             return{
                 ...state,
+                isWaiting: false,
             }
         case Action.DeleteQuestion:
             return{
                 ...state,
+                isWaiting: false,
             }
         case Action.ExitEditMode:
             return{
                 ...state,
                 isEditingQuizList: false,
-                quizes: action.payload
+                quizes: action.payload,
+                isWaiting: false,
+
             }
         case Action.SaveQuizSettings:
             return{
                 ...state,
+                isWaiting: false,
+            } 
+        case Action.StartWaiting:
+            return {
+                ...state,
+                isWaiting: true
             }
         default:
             return state;

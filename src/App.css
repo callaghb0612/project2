@@ -3,9 +3,41 @@
   padding: 1rem 2rem 2rem 2rem;
 }
 
+#site-pulse{
+  background-color: #88aaff;
+  padding: 1rem 2rem 2rem 2rem;
+  animation: pulse .5s infinite alternate;
+}
+
+@keyframes pulse{
+  from{
+    background-color: #88aaff;
+  }
+
+  to {
+    background-color: #ddffff;
+  }
+}
+
 #site-edit{
   background-color: #444444;
   padding: 1rem 2rem 2rem 2rem;
+}
+
+#site-edit-pulse{
+  background-color: #444444;
+  padding: 1rem 2rem 2rem 2rem;
+  animation: pulse-edit .5s infinite alternate;
+}
+
+@keyframes pulse-edit{
+  from{
+    background-color: #444444;
+  }
+
+  to {
+    background-color: #888888;
+  }
 }
 
 #header{
@@ -27,6 +59,8 @@
   border-radius: 1rem;
   padding: 1rem;
 }
+
+
 
 
 #app-root{

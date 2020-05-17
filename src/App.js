@@ -21,6 +21,7 @@ function App() {
   const isEditingQuizList = useSelector(state => state.isEditingQuizList);
   const isEditingQuiz = useSelector(state => state.isEditingQuiz);
   const quizBeingEdited = useSelector(state => state.quizBeingEdited);
+  const isWaiting = useSelector(state => state.isWaiting); //for loading indicator
   const dispatch = useDispatch();
 
   //for editing a specific quiz
@@ -76,11 +77,18 @@ function App() {
     dispatch(createQuiz());
   }
 
+  //defines whether the site should be pulsing or not
+  let siteID;
   if(isTakingQuiz){
+    if(isWaiting){
+      siteID = "site-pulse";
+    } else {
+      siteID = "site";
+    }
     if(isShowingResults){
       //show results
       return(
-        <div id="site">
+        <div id={siteID}>
           <div id="header">Know-A-Bunch</div>
           <div id="app-root">
             <div id="results-box">
@@ -94,7 +102,7 @@ function App() {
     } else {
     //display the quiz
       return (
-        <div id="site">
+        <div id={siteID}>
           <div id="header">Know-A-Bunch</div>
           <div id="app-root">
             <Question key={quizQuestions[questionIndex].q_num} question={quizQuestions[questionIndex]} isShowingAnswer={isShowingAnswer}/>
@@ -103,12 +111,17 @@ function App() {
         );
     }
   } if(isEditingQuizList) {
+    if(isWaiting){
+      siteID = "site-edit-pulse";
+    } else {
+      siteID = "site-edit";
+    }
       if(isEditingQuiz){
         quizTitle = quiz.title;
         quizAuthor = quiz.author;
         //edit quiz
         return(
-          <div id="site-edit">
+          <div id={siteID}>
             <div id="header-edit">Know-A-Bunch</div>
             <div id="app-root-edit">
               <div id="title-editor">
@@ -129,7 +142,7 @@ function App() {
       } else {
         //display the quiz list, with the edit/delete buttons instead of take quiz button, as well as the add quiz button
         return(
-          <div id="site-edit">
+          <div id={siteID}>
             <div id="header-edit">Know-A-Bunch</div>
             <div id="app-root-edit">
               {quizes.map(quiz => <QuizEditable key={quiz.id} quiz={quiz} id={quiz.id}/>)}
@@ -142,8 +155,13 @@ function App() {
   } else {
     //display the main menu
     //quiz list and add/remove/edit buttons
+    if(isWaiting){
+      siteID = "site-pulse";
+    } else {
+      siteID = "site";
+    }
     return (
-      <div id="site">
+      <div id={siteID}>
         <div id="header">Know-A-Bunch</div>
         <div id="app-root">
           {quizes.map(quiz => <Quiz key={quiz.id} quiz={quiz} id={quiz.id}/>)}

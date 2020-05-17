@@ -15,6 +15,7 @@ export const Action = Object.freeze({
     ExitEditMode: 'ExitEditMode',
     SaveQuizSettings: 'SaveQuizSettings',
     CreateQuiz: 'CreateQuiz',
+    StartWaiting: 'StartWaiting,'
 });
 
 function checkForErrors(response){
@@ -34,6 +35,7 @@ export function loadQuizes(quizes){
 
 export function loadQuizesList(){
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/all`)
             .then(checkForErrors)
             .then(response => response.json())
@@ -48,6 +50,7 @@ export function loadQuizesList(){
 
 export function loadQuizQuestions(id){
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/${id}`)
             .then(checkForErrors)
             .then(response => response.json())
@@ -93,6 +96,7 @@ export function endQuiz(){
 
 export function loadEditList(){
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/all`)
             .then(checkForErrors)
             .then(response => response.json())
@@ -110,7 +114,8 @@ export function loadEditList(){
 
 export function loadQuizEditor(id){
     return dispatch => {
-            fetch(`${address}/quiz/${id}`)
+        dispatch(startWaiting());
+        fetch(`${address}/quiz/${id}`)
                 .then(checkForErrors)
                 .then(response => response.json())
                 .then(data =>{
@@ -136,6 +141,7 @@ export function createNewShort(id, num){
     };
     
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/add/${id}/short`, options)
             .then(checkForErrors)
             .then(data => {
@@ -157,6 +163,7 @@ export function createNewMC(id, num){
         body: JSON.stringify(newQ),
     }
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/add/${id}/mc`, options)
             .then(checkForErrors)
             .then(response => response.json())
@@ -178,6 +185,7 @@ export function deleteQuestion(id, num){
     };
 
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/${id}/delete/${num}`, options)
             .then(checkForErrors)
             .then(response => response.json())
@@ -200,6 +208,7 @@ export function saveQuestion(id, newQ){
     }
     
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/${id}/edit/${newQ.q_num}`, options)
             .then(checkForErrors)
             .then(response => response.json())
@@ -214,6 +223,7 @@ export function saveQuestion(id, newQ){
 
 export function exitEditMode(){
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/all`)
             .then(checkForErrors)
             .then(response => response.json())
@@ -239,6 +249,7 @@ export function saveQuizSettings(title, author, id){
         body: JSON.stringify(newQ)
     }
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/${id}`, options)
             .then(checkForErrors)
             .then(response => response.json())
@@ -263,6 +274,7 @@ export function createQuiz(){
         body: JSON.stringify(newQ),
     }
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/add/quiz`, options)
             .then(checkForErrors)
             .then(response => response.json())
@@ -284,6 +296,7 @@ export function removeQuiz(id){
     };
     
     return dispatch => {
+        dispatch(startWaiting());
         fetch(`${address}/quiz/${id}`, options)
             .then(checkForErrors)
             .then(response => response.json())
@@ -293,5 +306,11 @@ export function removeQuiz(id){
                 }
             })
             .catch(e => console.error(e));
+    }
+}
+
+export function startWaiting(){
+    return{
+        type: Action.StartWaiting
     }
 }
