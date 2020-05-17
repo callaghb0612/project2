@@ -3,9 +3,9 @@ import './App.css';
 import {Quiz} from './quiz';
 import {Quiz_Editable} from './quiz-editable';
 import {Question} from './question'
-import {Question_Editable} from './question-editable';
+import {QuestionEditable} from './question-editable';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadQuizesList, loadEditList} from './actions';
+import {loadQuizesList, loadEditList, createNewMC, createNewShort} from './actions';
 
 function App() {
   const quizes = useSelector(state => state.quizes);
@@ -33,6 +33,16 @@ function App() {
 
   function editList(){
     dispatch(loadEditList());
+  }
+
+  //these add new multiple choice questions and short answer questions, etc.
+  const addMC = () => {
+    console.log('add mc');
+    createNewMC(quizBeingEdited, numQuestions + 1);
+  }
+
+  const addShort = () =>{
+    createNewShort(quizBeingEdited, numQuestions + 1);
   }
 
   if(isTakingQuiz){
@@ -65,11 +75,12 @@ function App() {
       if(isEditingQuiz){
         //edit quiz
         return(
-          <div id="sites-edit">
+          <div id="site-edit">
             <div id="header-edit">Know-A-Bunch</div>
             <div id="app-root-edit">
-              {quizQuestions.map(question => <Question_Editable key={question.q_num} question={question}/>)}
-              <button id="add-question-button">Add Question</button>
+              {quizQuestions.map(question => <QuestionEditable key={question.q_num} question={question}/>)}
+              <button id="add-s-question-button" onClick={addShort}>Add Short Answer Question</button>
+              <button id="add-mc-question-button" onClick={addMC}>Add Multiple Choice Question</button>
             </div>
           </div>
         );

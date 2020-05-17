@@ -45,3 +45,37 @@
     font-size: 18pt;
     color: yellow;
 }
+
+.delete-button{
+    background-color: black;
+    color: red;
+    font-size: 20pt;
+    padding: 1rem;
+    border: solid white .1rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin: 1rem;
+}
+
+.delete-button:hover{
+    background-color: red;
+    color: black;
+    cursor: pointer;
+}
+
+.save-button{
+    background-color: black;
+    color: #8888ff;
+    font-size: 20pt;
+    padding: 1rem;
+    border: solid white .1rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin: 1rem;
+}
+
+.save-button:hover{
+    background-color: #8888ff;
+    color: black;
+    cursor: pointer;
+}

@@ -103,6 +103,7 @@
 #edit-button:hover{
   background-color: yellow;
   color: black; 
+  cursor: pointer;
 }
 
 #edit-button-div{
@@ -121,5 +122,39 @@
 #add-quiz-button:hover{
   background-color: black;
   color: yellow;
+  cursor: pointer;
+}
+
+#add-s-question-button{
+  background-color: black;
+  color: yellow;
+  font-size: 20pt;
+  padding: 1rem;
+  border: solid white .1rem;
+  border-radius: 1rem;
+  text-align: center;
+  margin: 1rem;
+}
+
+#add-s-question-button:hover{
+  background-color: yellow;
+  color: black;
+  cursor: pointer;
+}
+
+#add-mc-question-button{
+  background-color: black;
+  color: yellow;
+  font-size: 20pt;
+  padding: 1rem;
+  border: solid white .1rem;
+  border-radius: 1rem;
+  text-align: center;
+  margin: 1rem;
+}
+
+#add-mc-question-button:hover{
+  background-color: yellow;
+  color: black;
   cursor: pointer;
 }

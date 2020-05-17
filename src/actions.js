@@ -1,4 +1,4 @@
-const address = 'https://know-a-bunch.duckdns.org:3442';
+export const address = 'https://know-a-bunch.duckdns.org:3442';
 
 export const Action = Object.freeze({
     LoadQuizList: 'LoadQuizesList',
@@ -8,6 +8,8 @@ export const Action = Object.freeze({
     GotoNextQuestion: 'GotoNextQuestion',
     CheckAnswer: 'CheckAnswer',
     EndQuiz: 'EndQuiz',
+    CreateNewMC: 'CreateNewMC',
+    CreateNewShort: 'CreateNewShort'
 });
 
 function checkForErrors(response){
@@ -27,6 +29,7 @@ export function loadQuizes(quizes){
 
 export function loadQuizesList(){
     return dispatch => {
+        console.log('getting all quizes');
         fetch(`${address}/quiz/all`)
             .then(checkForErrors)
             .then(response => response.json())
@@ -41,18 +44,18 @@ export function loadQuizesList(){
 
 export function loadQuizQuestions(id){
     return dispatch => {
-    fetch(`${address}/quiz/${id}`)
-        .then(checkForErrors)
-        .then(response => response.json())
-        .then(data =>{
-            if(data.ok){
-                dispatch({
-                    type: Action.LoadQuizQuestions,
-                    payload: [id, data.questionList]
-                });
-            }
-        })
-        .catch(e => console.error(e));
+        fetch(`${address}/quiz/${id}`)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data =>{
+                if(data.ok){
+                    dispatch({
+                        type: Action.LoadQuizQuestions,
+                        payload: [id, data.questionList]
+                    });
+                }
+            })
+            .catch(e => console.error(e));
     }
 }
 
@@ -115,4 +118,56 @@ export function loadQuizEditor(id){
                 })
                 .catch(e => console.error(e));
             }
+}
+
+export function createNewShort(id, num){
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({q_num: num, question: "", answer: ""})
+    };
+    
+    return dispatch => {
+        fetch(`${address}/quiz/add/${id}/short`)
+            .then(checkForErrors)
+            .then(data => {
+                if(data.ok){
+                    dispatch({
+                        type: Action.CreateNewShort,
+                        payload: id
+                    })
+                }
+            });
+    }
+}
+
+export function createNewMC(id, num){
+    console.log('create mc');
+    console.log(id);    
+    console.log(num);
+    const newQ = {q_num: `${num}`, question: 'Q', a: 'A', b: 'B', c: 'C', d: 'D', answer: `0`}
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newQ),
+    };
+    console.log(options);
+    return dispatch => {
+        console.log(`${address}/quiz/add/${id}/mc`);
+        fetch(`${address}/quiz/add/${id}/mc`, options)
+            .then(checkForErrors)
+            .then(data => {
+                if(data.ok){
+                    dispatch({
+                        type: Action.CreateNewMC,
+                        payload: id
+                    });
+                }
+            })
+            .catch(e => console.error(e));
+    }
 }
