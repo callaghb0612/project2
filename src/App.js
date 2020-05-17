@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Quiz} from './quiz';
-import {Quiz_Editable} from './quiz-editable';
+import {QuizEditable} from './quiz-editable';
 import {Question} from './question'
 import {QuestionEditable} from './question-editable';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadQuizesList, loadEditList, createNewMC, createNewShort, loadQuizQuestionsForEditing, loadQuizEditor} from './actions';
-import { wait } from '@testing-library/react';
+import {loadQuizesList, loadEditList, createNewMC, createNewShort, loadQuizEditor, exitEditMode, saveQuizSettings, createQuiz} from './actions';
 
 function App() {
   const quizes = useSelector(state => state.quizes);
@@ -24,6 +23,20 @@ function App() {
   const quizBeingEdited = useSelector(state => state.quizBeingEdited);
   const dispatch = useDispatch();
 
+  //for editing a specific quiz
+  let quizTitle= useState();
+  let quizAuthor = useState();
+  
+
+  const editTitle = (event) => {
+    quizTitle = event.target.value;
+  }
+
+  const editAuthor = (event) => {
+    quizAuthor = event.target.value;
+  }
+
+
   useEffect(() =>{
     dispatch(loadQuizesList());
   }, [dispatch]);
@@ -38,7 +51,6 @@ function App() {
 
   //these add new multiple choice questions and short answer questions, etc.
   const addMC = () => {
-    console.log('add mc');
     dispatch(createNewMC(quizBeingEdited, numQuestions + 1));
     dispatch(loadQuizEditor(quizBeingEdited));
   }
@@ -46,6 +58,22 @@ function App() {
   const addShort = () =>{
     dispatch(createNewShort(quizBeingEdited, numQuestions + 1));
     dispatch(loadQuizEditor(quizBeingEdited));
+  }
+
+  const exitEdit = () => {
+    dispatch(exitEditMode());
+  }
+
+  const returnToEditList = () => {
+    dispatch(loadEditList())
+  }
+
+  const saveQuiz = () => {
+    dispatch(saveQuizSettings(quizTitle, quizAuthor, quizBeingEdited));
+  }
+
+  const addQuiz = () => {
+    dispatch(createQuiz());
   }
 
   if(isTakingQuiz){
@@ -76,14 +104,25 @@ function App() {
     }
   } if(isEditingQuizList) {
       if(isEditingQuiz){
+        quizTitle = quiz.title;
+        quizAuthor = quiz.author;
         //edit quiz
         return(
           <div id="site-edit">
             <div id="header-edit">Know-A-Bunch</div>
             <div id="app-root-edit">
+              <div id="title-editor">
+                Title:
+                <div><input id="title-edit" placeholder={quizTitle} onClick={(event) => {event.target.value = quizTitle;}} onChange={editTitle}/></div>
+                Author:
+                <div><input id="author-edit" placeholder={quizAuthor} onClick={(event) => {event.target.value = quizAuthor;}} onChange={editAuthor}/></div>
+                <button id="save-quiz-button" onClick={saveQuiz}>Save</button>
+              </div>
               {quizQuestions.map(question => <QuestionEditable key={question.q_num} question={question}/>)}
               <button id="add-s-question-button" onClick={addShort}>Add Short Answer Question</button>
               <button id="add-mc-question-button" onClick={addMC}>Add Multiple Choice Question</button>
+
+              <div><button id="return-to-edit-list-button" onClick={returnToEditList}>Return To Quiz List</button></div>
             </div>
           </div>
         );
@@ -93,8 +132,9 @@ function App() {
           <div id="site-edit">
             <div id="header-edit">Know-A-Bunch</div>
             <div id="app-root-edit">
-              {quizes.map(quiz => <Quiz_Editable key={quiz.id} quiz={quiz} id={quiz.id}/>)}
-              
+              {quizes.map(quiz => <QuizEditable key={quiz.id} quiz={quiz} id={quiz.id}/>)}
+              <div><button id="add-quiz-button" onClick={addQuiz}>Add Quiz</button></div>
+              <button id="exit-edit-button" onClick={exitEdit}>Return To Menu</button>
             </div>
           </div>
         );

@@ -11,7 +11,10 @@ export const Action = Object.freeze({
     CreateNewMC: 'CreateNewMC',
     CreateNewShort: 'CreateNewShort',
     DeleteQuestion: 'DeleteQuestion',
-    SaveQuestion: 'SaveQuestion'
+    SaveQuestion: 'SaveQuestion',
+    ExitEditMode: 'ExitEditMode',
+    SaveQuizSettings: 'SaveQuizSettings',
+    CreateQuiz: 'CreateQuiz',
 });
 
 function checkForErrors(response){
@@ -31,7 +34,6 @@ export function loadQuizes(quizes){
 
 export function loadQuizesList(){
     return dispatch => {
-        console.log('getting all quizes');
         fetch(`${address}/quiz/all`)
             .then(checkForErrors)
             .then(response => response.json())
@@ -69,8 +71,6 @@ export function gotoNextQuestion(){
 
 export function checkAnswer(question, answer){
     //short answer
-    console.log(question.answer);
-    console.log(answer);
     //i guess we have to do double equals here, not sure why
     if(answer === question.answer){        
         return{
@@ -198,7 +198,7 @@ export function saveQuestion(id, newQ){
         },
         body: JSON.stringify(newQ)
     }
-    console.log(newQ);
+    
     return dispatch => {
         fetch(`${address}/quiz/${id}/edit/${newQ.q_num}`, options)
             .then(checkForErrors)
@@ -206,6 +206,90 @@ export function saveQuestion(id, newQ){
             .then(data => {
                 if(data.ok){
                     dispatch(loadQuizEditor(id));
+                }
+            })
+            .catch(e => console.error(e));
+    }
+}
+
+export function exitEditMode(){
+    return dispatch => {
+        fetch(`${address}/quiz/all`)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch({
+                        type: Action.ExitEditMode,
+                        payload: data.quizList
+                    });
+                }
+            })
+            .catch(e => console.error(e));
+    }
+}
+
+export function saveQuizSettings(title, author, id){
+    const newQ = {title: title, author: author};
+    const options = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newQ)
+    }
+    return dispatch => {
+        fetch(`${address}/quiz/${id}`, options)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch({
+                        type: Action.SaveQuizSettings,
+                    })
+                }
+            })
+            .catch(e => console.error(e));
+    }
+}
+
+export function createQuiz(){
+    const newQ = {title: "Quiz Title", author: "Quiz Author"};
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newQ),
+    }
+    return dispatch => {
+        fetch(`${address}/quiz/add/quiz`, options)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch(loadEditList())
+                }
+            })
+            .catch(e => console.error(e));
+    }
+}
+
+export function removeQuiz(id){
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    
+    return dispatch => {
+        fetch(`${address}/quiz/${id}`, options)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch(loadEditList(id));
                 }
             })
             .catch(e => console.error(e));

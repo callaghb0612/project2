@@ -79,3 +79,8 @@
     color: black;
     cursor: pointer;
 }
+
+.radio-button{
+    margin: .5rem;
+    padding: 1rem;
+}

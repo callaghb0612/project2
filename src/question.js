@@ -35,6 +35,8 @@ export function Question(props){
                 case '3':
                     id = 3;
                     break;
+                default:
+                    break;
 
             }
             dispatch(checkAnswer(question, id));
@@ -43,7 +45,6 @@ export function Question(props){
 
     const nextQuestion = () => {
         if(question.q_num >= numQuestions){
-            console.log('ending quiz...');
             dispatch(endQuiz())
         } else {
             dispatch(gotoNextQuestion());

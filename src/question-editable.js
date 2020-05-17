@@ -7,12 +7,13 @@ export function QuestionEditable(props){
     const dispatch = useDispatch();
     const quizID = useSelector(state => state.quizBeingEdited);
     const question = props.question;
-    let [answerText, setAnswerText] = useState([]);
-    let [questionText, setQuestionText] = useState([]);
-    let [AText, setAText] = useState([]);
-    let [BText, setBText] = useState([]);
-    let [CText, setCText] = useState([]);
-    let [DText, setDText] = useState([]);
+    let answerText = useState();
+    let questionText = useState();
+    let AText = useState();
+    let BText = useState();
+    let CText = useState();
+    let DText = useState();
+    let mcAnswer = useState();
     AText = question.a;
     BText = question.b;
     CText = question.c;
@@ -33,7 +34,7 @@ export function QuestionEditable(props){
     }
 
     const editMC = (event) => {
-        switch(event.target.id){
+        switch(event.target.name){
             case '0':
                 //I dont know why this doesnt work
                 //setAText(event.target.value);
@@ -51,6 +52,8 @@ export function QuestionEditable(props){
                 //setDText(event.target.value);
                 DText = event.target.value;
                 break;
+            default:
+                break;
         }
     }
 
@@ -59,7 +62,6 @@ export function QuestionEditable(props){
     }
 
     const saveQ = () => {
-        console.log(`question type is ${question.question_type}`)
         if(question.question_type === 0){
             //short answer
             const questionObject = {
@@ -74,7 +76,7 @@ export function QuestionEditable(props){
             //multiple choice
             const questionObject = {
                 question: questionText,
-                answer: 0, //for now all new mc questions will have to be 0
+                answer: mcAnswer,
                 a: AText,
                 b: BText,
                 c: CText,
@@ -85,6 +87,10 @@ export function QuestionEditable(props){
 
             dispatch(saveQuestion(quizID, questionObject));
         }
+    }
+
+    const mcAnswerChange = (event) => {
+        mcAnswer = event.target.value;
     }
 
     if(question.question_type === 0){
@@ -107,13 +113,20 @@ export function QuestionEditable(props){
                 <div className="question-text"><div className="q-num-edit">{question.q_num}.</div> <div className="question-word">Question: </div>
                 <input className="question-text-edit" placeholder={questionText} onClick={(event) => {event.target.value = questionText;}} onChange={editQuestion}/></div>
                 <div className="answer-word">A: </div>
-                <input className="answer-box-edit" id='0' placeholder={AText} onClick={(event) => {event.target.value = AText;}} onChange={editMC}/>
+                <input className="answer-box-edit" name='0' placeholder={AText} onClick={(event) => {event.target.value = AText;}} onChange={editMC}/>
                 <div className="answer-word">B:</div>
-                <input className="answer-box-edit" id='1' placeholder={BText} onClick={(event) => {event.target.value = BText;}} onChange={editMC}/>
+                <input className="answer-box-edit" name='1' placeholder={BText} onClick={(event) => {event.target.value = BText;}} onChange={editMC}/>
                 <div className="answer-word">C: </div>
-                <input className="answer-box-edit" id='2' placeholder={CText} onClick={(event) => {event.target.value = CText;}} onChange={editMC}/>
+                <input className="answer-box-edit" name='2' placeholder={CText} onClick={(event) => {event.target.value = CText;}} onChange={editMC}/>
                 <div className="answer-word">D: </div>
-                <input className="answer-box-edit" id='3' placeholder={CText} onClick={(event) => {event.target.value = DText;}} onChange={editMC}/>
+                <input className="answer-box-edit" name='3' placeholder={DText} onClick={(event) => {event.target.value = DText;}} onChange={editMC}/>
+                <form className="correct-answer-selection-form" onChange={mcAnswerChange}>
+                    <label className="correct-answer-radio-label">Correct Answer: </label> 
+                    <span className="radio-button"><label className="radio-label">A </label><input name={question.q_num} type="radio" value={0} defaultChecked/></span>
+                    <span className="radio-button"><label className="radio-label">B </label><input name={question.q_num} type="radio" value={1}/></span>
+                    <span className="radio-button"><label className="radio-label">C </label><input name={question.q_num} type="radio" value={2}/></span>
+                    <span className="radio-button"><label className="radio-label">D </label><input name={question.q_num} type="radio" value={3}/></span>
+                </form>
                 <button className="delete-button" onClick={deleteQ}>Delete Question</button>
                 <button className="save-button" onClick={saveQ}>Save</button>
             </div>

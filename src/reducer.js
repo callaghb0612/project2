@@ -32,7 +32,6 @@ function reducer(state = initialState, action){
                 quizBeingTaken: null,
                 quizQuestions: [],
             }
-            break;
         case Action.LoadQuizQuestions:
             //determine which quiz is being taken
             //id is payload[0]
@@ -55,7 +54,6 @@ function reducer(state = initialState, action){
                 numQuestions: action.payload[1].length,
                 numCorrect: 0,
             }
-            break;
         case Action.GotoNextQuestion:
             return{
                 ...state,
@@ -80,21 +78,19 @@ function reducer(state = initialState, action){
                     isShowingQuestionAnswer: true
                 }
             }
-            break;
         case Action.EndQuiz:
             return{
                 ...state,
                 showingResults: true,
                 isShowingQuestionAnswer: false,
             }
-            break;
         case Action.LoadEditList:
             return{
                 ...state,
                 isEditingQuizList: true,
                 quizes: action.payload,
+                isEditingQuiz: false,
             }
-            break;
         case Action.LoadQuizEditor:
             let quiz_e;
             for(let i=0; i<state.quizes.length; i++){
@@ -111,24 +107,30 @@ function reducer(state = initialState, action){
                 quizBeingEdited: action.payload[0],
                 numQuestions: action.payload[1].length
             }
-            break;
         case Action.CreateNewShort:
             return{
                 ...state
             }
-            break;
         case Action.CreateNewMC:
             return{
                 ...state,
             }
-            break;
         case Action.DeleteQuestion:
+            return{
+                ...state,
+            }
+        case Action.ExitEditMode:
+            return{
+                ...state,
+                isEditingQuizList: false,
+                quizes: action.payload
+            }
+        case Action.SaveQuizSettings:
             return{
                 ...state,
             }
         default:
             return state;
-            break;
     }
 }
 

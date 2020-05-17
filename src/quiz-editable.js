@@ -1,11 +1,11 @@
 import React from 'react';
 import './quiz-editable.css';
 import {useDispatch} from 'react-redux';
-import {loadQuizEditor} from './actions';
+import {loadQuizEditor, removeQuiz} from './actions';
 
 
 
-export function Quiz_Editable(props){
+export function QuizEditable(props){
     const quiz = props.quiz;
     const dispatch = useDispatch();
 
@@ -14,7 +14,7 @@ export function Quiz_Editable(props){
     }
 
     const deleteQuiz = () => {
-        //delete quiz
+        dispatch(removeQuiz(props.id));
     }
 
     return(
