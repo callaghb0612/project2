@@ -1,4 +1,4 @@
-import {Action, loadQuizQuestions} from './actions';
+import {Action} from './actions';
 
 const initialState = {
     isTakingQuiz: false,
@@ -53,6 +53,7 @@ function reducer(state = initialState, action){
                 quizes: [quiz],
                 quizQuestion: 0,
                 numQuestions: action.payload[1].length,
+                numCorrect: 0,
             }
             break;
         case Action.GotoNextQuestion:
@@ -112,15 +113,19 @@ function reducer(state = initialState, action){
             }
             break;
         case Action.CreateNewShort:
-            loadQuizQuestions(action.payload);
-            break;
-        case Action.CreateNewMC:
-            console.log('create new MC reducer');
-            loadQuizQuestions(action.payload);
             return{
                 ...state
             }
             break;
+        case Action.CreateNewMC:
+            return{
+                ...state,
+            }
+            break;
+        case Action.DeleteQuestion:
+            return{
+                ...state,
+            }
         default:
             return state;
             break;

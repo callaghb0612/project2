@@ -5,7 +5,8 @@ import {Quiz_Editable} from './quiz-editable';
 import {Question} from './question'
 import {QuestionEditable} from './question-editable';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadQuizesList, loadEditList, createNewMC, createNewShort} from './actions';
+import {loadQuizesList, loadEditList, createNewMC, createNewShort, loadQuizQuestionsForEditing, loadQuizEditor} from './actions';
+import { wait } from '@testing-library/react';
 
 function App() {
   const quizes = useSelector(state => state.quizes);
@@ -39,10 +40,12 @@ function App() {
   const addMC = () => {
     console.log('add mc');
     dispatch(createNewMC(quizBeingEdited, numQuestions + 1));
+    dispatch(loadQuizEditor(quizBeingEdited));
   }
 
   const addShort = () =>{
     dispatch(createNewShort(quizBeingEdited, numQuestions + 1));
+    dispatch(loadQuizEditor(quizBeingEdited));
   }
 
   if(isTakingQuiz){

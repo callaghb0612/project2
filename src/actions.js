@@ -9,7 +9,9 @@ export const Action = Object.freeze({
     CheckAnswer: 'CheckAnswer',
     EndQuiz: 'EndQuiz',
     CreateNewMC: 'CreateNewMC',
-    CreateNewShort: 'CreateNewShort'
+    CreateNewShort: 'CreateNewShort',
+    DeleteQuestion: 'DeleteQuestion',
+    SaveQuestion: 'SaveQuestion'
 });
 
 function checkForErrors(response){
@@ -67,6 +69,9 @@ export function gotoNextQuestion(){
 
 export function checkAnswer(question, answer){
     //short answer
+    console.log(question.answer);
+    console.log(answer);
+    //i guess we have to do double equals here, not sure why
     if(answer === question.answer){        
         return{
             type: Action.CheckAnswer,
@@ -121,25 +126,24 @@ export function loadQuizEditor(id){
 }
 
 export function createNewShort(id, num){
+    const newQ = {q_num: `${num}`, question: 'Q', answer: 'A'}
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({q_num: num, question: "", answer: ""})
+        body: JSON.stringify(newQ)
     };
     
     return dispatch => {
-        fetch(`${address}/quiz/add/${id}/short`)
+        fetch(`${address}/quiz/add/${id}/short`, options)
             .then(checkForErrors)
             .then(data => {
                 if(data.ok){
-                    dispatch({
-                        type: Action.CreateNewShort,
-                        payload: id
-                    })
+                    dispatch(loadQuizEditor(id));
                 }
-            });
+            })
+            .catch(e => console.error(e));
     }
 }
 
@@ -152,20 +156,58 @@ export function createNewMC(id, num){
         },
         body: JSON.stringify(newQ),
     }
-    console.log(options);
-
     return dispatch => {
         fetch(`${address}/quiz/add/${id}/mc`, options)
             .then(checkForErrors)
             .then(response => response.json())
             .then(data => {
                 if(data.ok){
-                    dispatch({
-                        type: Action.CreateNewMC,
-                        payload: id
-                    });
+                    dispatch(loadQuizEditor(id));
                 }
             })
             .catch(e => console.error(e));
     };
+}
+
+export function deleteQuestion(id, num){
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return dispatch => {
+        fetch(`${address}/quiz/${id}/delete/${num}`, options)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch(loadQuizEditor(id));
+                }
+            })
+            .catch(e => console.error(e));
+    }
+}
+
+export function saveQuestion(id, newQ){
+    const options = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newQ)
+    }
+    console.log(newQ);
+    return dispatch => {
+        fetch(`${address}/quiz/${id}/edit/${newQ.q_num}`, options)
+            .then(checkForErrors)
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    dispatch(loadQuizEditor(id));
+                }
+            })
+            .catch(e => console.error(e));
+    }
 }
