@@ -154,12 +154,14 @@ export function createNewMC(id, num){
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(newQ),
-    };
+    }
     console.log(options);
+
     return dispatch => {
         console.log(`${address}/quiz/add/${id}/mc`);
         fetch(`${address}/quiz/add/${id}/mc`, options)
             .then(checkForErrors)
+            .then(response => response.json())
             .then(data => {
                 if(data.ok){
                     dispatch({
@@ -169,5 +171,5 @@ export function createNewMC(id, num){
                 }
             })
             .catch(e => console.error(e));
-    }
+    };
 }
